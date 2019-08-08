@@ -96,6 +96,7 @@ class Records extends Component {
                         <th>手机号</th>
                         <th>邮箱</th>
                         <th>昵称</th>
+                        <th>角色</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -113,7 +114,7 @@ class Records extends Component {
         }
         return (
             <div className="m-3">
-                <h5 style={{ textAlign: 'right' }}>hello,{localStorage.getItem('UserName')}!  <span style={{ color: 'blue' }} onClick={this.handleSignOut.bind(this)}><u>退出</u></span></h5>
+                <h5 style={{ textAlign: 'right' }}><span style={{ color: 'orange' }}> {localStorage.getItem('RoleName')} </span>hello,{localStorage.getItem('UserName')}!  <span style={{ color: 'blue' }} onClick={this.handleSignOut.bind(this)}><u>退出</u></span></h5>
                 <h4>新增用户</h4>
                 <RegisterForm handleNewRecord={this.addRecord.bind(this)} />
                 <h4>用户列表</h4>
