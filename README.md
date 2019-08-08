@@ -1,3 +1,13 @@
+在根目录新建文件，文件名为.env.development.local 配置环境URL
+如：REACT_APP_RECPRDS_API_URL=http://192.168.1.103
+
+
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
