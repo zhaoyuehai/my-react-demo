@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Record from './Record';
-import RecordForm from './RecordForm';
+import RegisterForm from './RegisterForm';
 import * as APIHelper from '../utils/APIHelper'
+/**
+ * 用户列表
+ */
 class Records extends Component {
 
     constructor() {
@@ -18,7 +21,7 @@ class Records extends Component {
     componentDidMount() {
         APIHelper.getAllUser(1, 20)
             .then(
-                (response) => {
+                response => {
                     this.setState({
                         code: response.data.code,
                         message: response.data.message,
@@ -28,13 +31,13 @@ class Records extends Component {
                 }
             )
             .catch(
-                (error) => {
+                error => {
                     this.setState({
                         isLoaded: true,
-                        error
+                        error: error
                     })
                 }
-            )
+            );
     }
 
     addRecord(record) {
@@ -47,7 +50,7 @@ class Records extends Component {
                 ...this.state.data,
                 record
             ]
-        })
+        });
     }
 
     updateRecord(record, newRecord) {
@@ -60,24 +63,29 @@ class Records extends Component {
                 ...item,
                 ...newRecord
             };
-        })
+        });
         this.setState({
             data: newData
-        })
+        });
     }
 
     deleteRecord(id) {
         const newData = this.state.data.filter((item) => item.id !== id);
         this.setState({
             data: newData
-        })
+        });
+    }
+
+    handleSignOut(event) {
+        event.preventDefault();
+        this.props.handleSignOut();
     }
 
     render() {
         const { error, isLoaded, code, message, data } = this.state;
         let recordsComponent;
         if (error) {
-            recordsComponent = <div>Error:{error.reqponseText}</div>;
+            recordsComponent = <div>Error:{error.message}</div>;
         } else if (!isLoaded) {
             recordsComponent = <div>Loading...</div>;
         } else if (code === '10000') {
@@ -88,6 +96,7 @@ class Records extends Component {
                         <th>手机号</th>
                         <th>邮箱</th>
                         <th>昵称</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,8 +113,9 @@ class Records extends Component {
         }
         return (
             <div className="m-3">
+                <h5 style={{ textAlign: 'right' }}>hello,{localStorage.getItem('UserName')}!  <span style={{ color: 'blue' }} onClick={this.handleSignOut.bind(this)}><u>退出</u></span></h5>
                 <h4>新增用户</h4>
-                <RecordForm handleNewRecord={this.addRecord.bind(this)} />
+                <RegisterForm handleNewRecord={this.addRecord.bind(this)} />
                 <h4>用户列表</h4>
                 {recordsComponent}
             </div>

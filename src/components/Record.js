@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import * as APIHelper from '../utils/APIHelper'
+/**
+ * 单条用户表格数据，支持编辑操作
+ */
 class Record extends Component {
     constructor() {
         super();

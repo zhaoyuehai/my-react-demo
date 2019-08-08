@@ -1,57 +1,66 @@
 import React, { Component } from 'react';
-import * as APIHelper from '../utils/APIHelper'
-
-export default class RecordForm extends Component {
+import Base64 from 'base-64';
+import * as APIHelper from '../utils/APIHelper';
+import './RegisterForm.scss'
+/**
+ * 注册用户表单
+ */
+export default class RegisterForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading: false,
             userName: "",
             password: "",
-            phone: "",
-            email: ""
+            phone: ""
         }
     }
 
     handleChange(event) {
-        let name, obj;
+        let name;//定义局部变量
         name = event.target.name;//name的值就算input name的值
-        this.setState((
-            obj = {},
-            obj["" + name] = event.target.value,
-            obj
-        ));
-
+        let obj;//定义局部变量
+        //this.setState((obj = {}, obj["" + name] = event.target.value, obj));//以上内容等同于下面：
+        obj = {};
+        obj["" + name] = event.target.value;
+        this.setState(obj);
     }
 
     valid() {
-        return this.state.userName && this.state.password && this.state.phone && this.state.email
+        return !this.state.isLoading && this.state.userName && this.state.password && this.state.phone;
     }
 
     handleSubmit(event) {
         event.preventDefault();
+        this.setState({ isLoading: true });
         const data = {
+            id: null,
             userName: this.state.userName,
-            password: this.state.password,
+            password: Base64.encode(this.state.password),//password->Base64进行编码
             phone: this.state.phone,
-            email: this.state.email
-        }
+        };
         APIHelper.registerUser(data).then(
             response => {
                 if (response.data.code === '10000') {
-                    this.props.handleNewRecord(data)
+                    data.id = response.data.data;
+                    this.props.handleNewRecord(data);
                     this.setState({
+                        isLoading: false,
                         userName: "",
                         password: "",
-                        phone: "",
-                        email: ""
-                    })
+                        phone: ""
+                    });
                 } else {
-                    alert(response.data.message)
+                    alert(response.data.message);
+                    this.setState({ isLoading: false });
                 }
             }
         ).catch(
-            error => alert(error.message)
-        )
+            error => {
+                alert(error.message);
+                this.setState({ isLoading: false });
+            }
+        );
     }
 
     render() {
@@ -65,9 +74,6 @@ export default class RecordForm extends Component {
                 </div>
                 <div className="form-group mr-2">
                     <input type="text" className="form-control" onChange={this.handleChange.bind(this)} placeholder="手机号" name="phone" value={this.state.phone} />
-                </div>
-                <div className="form-group mr-2">
-                    <input type="text" className="form-control" onChange={this.handleChange.bind(this)} placeholder="邮箱" name="email" value={this.state.email} />
                 </div>
                 <button type="submit" className="btn btn-primary" disabled={!this.valid()}>注册</button>
             </form>

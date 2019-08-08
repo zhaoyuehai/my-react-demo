@@ -1,11 +1,45 @@
 import React, { Component } from 'react';
+import LoginForm from './components/LoginForm';
+import Records from './components/Records';
+import './App.scss';
 class App extends Component {
-  render() {
-    return (
-      <div>
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLogin: localStorage.getItem('Authorization') != null
+    }
+  }
 
-      </div>
-    );
+  login(user) {
+    localStorage.setItem('Authorization', 'Bearer ' + user.accessToken);
+    localStorage.setItem('UserName', user.userName);
+    this.setState({
+      isLogin: true
+    })
+  }
+
+  signOut() {
+    localStorage.removeItem('Authorization');
+    localStorage.removeItem('UserName');
+    this.setState({
+      isLogin: false
+    })
+  }
+
+  render() {
+    if (this.state.isLogin) {
+      return (
+        <div>
+          <Records handleSignOut={this.signOut.bind(this)} />
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <LoginForm handleLogin={this.login.bind(this)} />
+        </div>
+      );
+    }
   }
 }
 
