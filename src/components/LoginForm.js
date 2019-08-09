@@ -34,26 +34,27 @@ export default class RecordForm extends Component {
         APIHelper
             .login(this.state.userName, this.state.password)
             .then(
-            response => {
-                if (response.data.code === '10000') {
-                    this.setState({
-                        isLoading: false
-                    });
-                    this.props.handleLogin(response.data.data);
-                } else {
-                    alert(response.data.message);
+                response => {
+                    if (response.data.code === '10000') {
+                        this.setState({
+                            isLoading: false
+                        });
+                        this.props.handleLogin(response.data.data);
+                    } else {
+                        alert(response.data.message);
+                        this.setState({
+                            isLoading: false
+                        });
+                    }
+                }
+            ).catch(
+                (error) => {
+                    alert(error.message);
                     this.setState({
                         isLoading: false
                     });
                 }
-            }
-        ).catch(
-            () => {
-                this.setState({
-                    isLoading: false
-                });
-            }
-        );
+            );
     }
 
     render() {

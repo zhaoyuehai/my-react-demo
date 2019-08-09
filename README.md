@@ -2,7 +2,8 @@
 如：REACT_APP_RECPRDS_API_URL=http://192.168.1.103
 
 
-
+打包：运行 npm run build 在根目录生成build文件夹
+    
 
 
 
