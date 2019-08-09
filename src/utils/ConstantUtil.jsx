@@ -1,4 +1,6 @@
-  export const  getRole =(roleName) =>{
+export const defaultRole = "ROLE_GUEST";
+
+export const getRole = (roleName) => {
     switch (roleName) {
         case "ROLE_ADMIN":
             return "管理员";

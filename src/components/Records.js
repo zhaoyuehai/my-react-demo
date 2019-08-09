@@ -19,7 +19,8 @@ class Records extends Component {
     }
     // 组件生命周期： 组件渲染后调用
     componentDidMount() {
-        APIHelper.getAllUser(1, 20)
+        APIHelper
+            .getAllUser(1, 20)
             .then(
                 response => {
                     this.setState({

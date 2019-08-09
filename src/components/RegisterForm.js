@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Base64 from 'base-64';
 import * as APIHelper from '../utils/APIHelper';
+import * as ConstantUtils from '../utils/ConstantUtil';
 import './RegisterForm.scss'
 /**
  * 注册用户表单
@@ -38,6 +39,7 @@ export default class RegisterForm extends Component {
             userName: this.state.userName,
             password: Base64.encode(this.state.password),//password->Base64进行编码
             phone: this.state.phone,
+            roleName: ConstantUtils.defaultRole
         };
         APIHelper.registerUser(data).then(
             response => {

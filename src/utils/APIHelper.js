@@ -4,12 +4,34 @@ import qs from 'qs';//使用qs将axios发送的数据格式转换为form-data格
 
 const api = process.env.REACT_APP_RECPRDS_API_URL || 'http://localhost';
 
-axios.interceptors.request.use(config => {
-  config.headers.common['Authorization'] = localStorage.getItem('Authorization');
-  return config;
-}, error => {// 对请求错误做些什么
-  return Promise.reject(error);
-});
+//请求拦截器
+axios.interceptors.request.use(
+  config => {
+    config.headers.common['Authorization'] = localStorage.getItem('Authorization');
+    return config;
+  },
+  error => {// 对请求错误做些什么
+    return Promise.reject(error);
+  }
+);
+
+//响应拦截器
+axios.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    if (error.response) {
+      if (error.response.status === 401) {
+        localStorage.removeItem('Authorization');
+        localStorage.removeItem('UserName');
+        localStorage.removeItem('RoleName');
+        window.location.reload();
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const login = (username, password) =>
   axios.post(`${api}/api/v1/login`,

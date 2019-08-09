@@ -26,32 +26,32 @@ class Record extends Component {
             email: this.refs.email.value,
             nickName: this.refs.nickName.value
         }
-        APIHelper.updateUser(record).then(
-            response => {
-                if (response.data.code === "10000") {
-                    this.setState({ edit: false })
-                    this.props.handleEditRecord(this.props.record, record)
-                } else {
-                    alert(response.data.message)
+        APIHelper
+            .updateUser(record)
+            .then(
+                response => {
+                    if (response.data.code === "10000") {
+                        this.setState({ edit: false })
+                        this.props.handleEditRecord(this.props.record, record)
+                    } else {
+                        alert(response.data.message)
+                    }
                 }
-            }
-        ).catch(
-            error => alert(error.message)
-        )
+            );
     }
 
     handleDelete(event) {
-        APIHelper.deleteUser(this.props.record.id).then(
-            response => {
-                if (response.data.code === "10000") {
-                    this.props.handleDeleteRecord(this.props.record.id)
-                } else {
-                    alert(response.data.message)
+        APIHelper
+            .deleteUser(this.props.record.id)
+            .then(
+                response => {
+                    if (response.data.code === "10000") {
+                        this.props.handleDeleteRecord(this.props.record.id)
+                    } else {
+                        alert(response.data.message)
+                    }
                 }
-            }
-        ).catch(
-            error => alert(error.message)
-        )
+            );
     }
 
     recordRow() {

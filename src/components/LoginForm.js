@@ -31,7 +31,9 @@ export default class RecordForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         this.setState({ isLoading: true });
-        APIHelper.login(this.state.userName, this.state.password).then(
+        APIHelper
+            .login(this.state.userName, this.state.password)
+            .then(
             response => {
                 if (response.data.code === '10000') {
                     this.setState({
@@ -46,8 +48,7 @@ export default class RecordForm extends Component {
                 }
             }
         ).catch(
-            error => {
-                alert(error.message);
+            () => {
                 this.setState({
                     isLoading: false
                 });
@@ -64,7 +65,7 @@ export default class RecordForm extends Component {
                 <div>
                     <input type="password" className="form-control mb-2" onChange={this.handleChange.bind(this)} placeholder="密码" name="password" value={this.state.password} />
                 </div>
-                <button type="submit" className="btn btn-primary" disabled={!this.valid()}>登录</button>
+                <button id="LoginButton" type="submit" className="btn btn-primary" disabled={!this.valid()}>登录</button>
             </form>
         );
     }
