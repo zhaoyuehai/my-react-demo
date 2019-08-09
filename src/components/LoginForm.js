@@ -4,12 +4,12 @@ import './LoginForm.scss';
 /**
  * 登录
  */
-export default class RecordForm extends Component {
+export default class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoading: false,
-            userName: "",
+            userName: localStorage.getItem('UserName') || "",
             password: "",
         }
     }
@@ -26,6 +26,10 @@ export default class RecordForm extends Component {
 
     valid() {
         return !this.state.isLoading && this.state.userName && this.state.password;
+    }
+
+    handleRegister() {
+        this.props.handleRegister();
     }
 
     handleSubmit(event) {
@@ -59,14 +63,18 @@ export default class RecordForm extends Component {
 
     render() {
         return (
-            <form id="LoginForm" onSubmit={this.handleSubmit.bind(this)}>
+            <form id="loginForm" onSubmit={this.handleSubmit.bind(this)}>
                 <div>
                     <input type="text" className="form-control mb-2" onChange={this.handleChange.bind(this)} placeholder="用户名/手机号" name="userName" value={this.state.userName} />
                 </div>
                 <div>
                     <input type="password" className="form-control mb-2" onChange={this.handleChange.bind(this)} placeholder="密码" name="password" value={this.state.password} />
                 </div>
-                <button id="LoginButton" type="submit" className="btn btn-primary" disabled={!this.valid()}>登录</button>
+                <button id="loginButton" type="submit" className="btn btn-primary" disabled={!this.valid()}>登录</button>
+                <div className="loginBottom">
+                    <span id="register" onClick={this.handleRegister.bind(this)}>注册</span>
+                    <span id="findPwd">忘记密码？</span>
+                </div>
             </form>
         );
     }

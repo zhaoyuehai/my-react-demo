@@ -2,7 +2,7 @@ import axios from 'axios';
 import Base64 from 'base-64';
 import qs from 'qs';//使用qs将axios发送的数据格式转换为form-data格式（在安装axios时，默认就安装了）
 
-const api = process.env.REACT_APP_RECPRDS_API_URL || 'http://localhost';
+const api = process.env.REACT_APP_RECPRDS_API_URL || 'http://10.10.33.105';
 
 //请求拦截器
 axios.interceptors.request.use(

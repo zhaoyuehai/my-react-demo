@@ -1,8 +1,26 @@
-#LoginForm {
+#loginForm {
     margin: 15% auto;
     width: 260px;
 }
 
-#LoginButton {
+#loginButton {
     width: 260px;
+}
+
+.loginBottom {
+    margin-top: 2px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#register {
+    align-content: flex-start;
+    color: blue;
+    cursor: pointer;
+}
+
+#findPwd {
+    text-align: right;
+    color: blue;
+    cursor: pointer;
 }

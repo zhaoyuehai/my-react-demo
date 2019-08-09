@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Base64 from 'base-64';
 import * as APIHelper from '../utils/APIHelper';
-import './RegisterForm.scss'
+import * as ConstantUtils from '../utils/ConstantUtil';
+import './AddRecordForm.scss'
 /**
  * 注册用户表单
  */
-export default class RegisterForm extends Component {
+export default class AddRecordForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,6 +35,7 @@ export default class RegisterForm extends Component {
         event.preventDefault();
         this.setState({ isLoading: true });
         const data = {
+            id: null,
             userName: this.state.userName,
             password: Base64.encode(this.state.password),//password->Base64进行编码
             phone: this.state.phone
@@ -41,8 +43,15 @@ export default class RegisterForm extends Component {
         APIHelper.registerUser(data).then(
             response => {
                 if (response.data.code === '10000') {
-                    localStorage.setItem('UserName', this.state.userName);
-                    this.props.handleLogin();
+                    data.id = response.data.data;
+                    data.roleName = ConstantUtils.defaultRole;
+                    this.props.handleNewRecord(data);
+                    this.setState({
+                        isLoading: false,
+                        userName: "",
+                        password: "",
+                        phone: ""
+                    });
                 } else {
                     alert(response.data.message);
                     this.setState({ isLoading: false });
@@ -55,12 +64,10 @@ export default class RegisterForm extends Component {
             }
         );
     }
-    handleLogin() {
-        this.props.handleLogin();
-    }
+
     render() {
         return (
-            <form id="registerForm" onSubmit={this.handleSubmit.bind(this)}>
+            <form className="form-inline mt-3 mb-3" onSubmit={this.handleSubmit.bind(this)}>
                 <div className="form-group mr-2">
                     <input type="text" className="form-control" onChange={this.handleChange.bind(this)} placeholder="用户名" name="userName" value={this.state.userName} />
                 </div>
@@ -70,10 +77,7 @@ export default class RegisterForm extends Component {
                 <div className="form-group mr-2">
                     <input type="text" className="form-control" onChange={this.handleChange.bind(this)} placeholder="手机号" name="phone" value={this.state.phone} />
                 </div>
-                <button type="submit" className="registerButton btn btn-primary" disabled={!this.valid()}>注册</button>
-                <div className="registerBottom">
-                    已有账号？<span id="returnLogin" onClick={this.handleLogin.bind(this)}>登录</span>
-                </div>
+                <button type="submit" className="btn btn-primary" disabled={!this.valid()}>注册</button>
             </form>
         );
     }

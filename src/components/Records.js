@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Record from './Record';
-import RegisterForm from './RegisterForm';
+import AddRecordForm from './AddRecordForm';
 import * as APIHelper from '../utils/APIHelper'
+import './Records.scss';
 /**
  * 用户列表
  */
@@ -42,16 +43,18 @@ class Records extends Component {
     }
 
     addRecord(record) {
-        this.setState({
-            error: null,
-            isLoaded: true,
-            code: "10000",
-            message: "success",
-            data: [
-                ...this.state.data,
-                record
-            ]
-        });
+        if (this.state.code === 10000) {
+            this.setState({
+                error: null,
+                isLoaded: true,
+                code: "10000",
+                message: "success",
+                data: [
+                    ...this.state.data,
+                    record
+                ]
+            });
+        }
     }
 
     updateRecord(record, newRecord) {
@@ -115,9 +118,12 @@ class Records extends Component {
         }
         return (
             <div className="m-3">
-                <h5 style={{ textAlign: 'right' }}><span style={{ color: 'orange' }}> {localStorage.getItem('RoleName')} </span>hello,{localStorage.getItem('UserName')}!  <span style={{ color: 'blue' }} onClick={this.handleSignOut.bind(this)}><u>退出</u></span></h5>
+                <h5 style={{ textAlign: 'right' }}>
+                    <span id="roleName"> {localStorage.getItem('RoleName')} </span>
+                    hello,{localStorage.getItem('UserName')}!
+                    <span id="signOut" onClick={this.handleSignOut.bind(this)}> 退出</span></h5>
                 <h4>新增用户</h4>
-                <RegisterForm handleNewRecord={this.addRecord.bind(this)} />
+                <AddRecordForm handleNewRecord={this.addRecord.bind(this)} />
                 <h4>用户列表</h4>
                 {recordsComponent}
             </div>
