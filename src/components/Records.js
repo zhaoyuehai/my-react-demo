@@ -80,11 +80,6 @@ class Records extends Component {
         });
     }
 
-    handleSignOut(event) {
-        event.preventDefault();
-        this.props.handleSignOut();
-    }
-
     render() {
         const { error, isLoaded, code, message, data } = this.state;
         let recordsComponent;
@@ -117,11 +112,7 @@ class Records extends Component {
             recordsComponent = <div>加载失败：{message}</div>;
         }
         return (
-            <div className="m-3">
-                <h5 style={{ textAlign: 'right' }}>
-                    <span id="roleName"> {localStorage.getItem('RoleName')} </span>
-                    hello,{localStorage.getItem('UserName')}!
-                    <span id="signOut" onClick={this.handleSignOut.bind(this)}> 退出</span></h5>
+            <div>
                 <h4>新增用户</h4>
                 <AddRecordForm handleNewRecord={this.addRecord.bind(this)} />
                 <h4>用户列表</h4>
