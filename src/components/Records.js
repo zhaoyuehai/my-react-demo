@@ -43,7 +43,7 @@ class Records extends Component {
     }
 
     addRecord(record) {
-        if (this.state.code === 10000) {
+        if (this.state.code === "10000") {
             this.setState({
                 error: null,
                 isLoaded: true,
