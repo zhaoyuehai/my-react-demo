@@ -18,8 +18,8 @@ class Records extends Component {
             data: []
         }
     }
-    // 组件生命周期： 组件渲染后调用
-    componentDidMount() {
+
+    loadData(){
         APIHelper
             .getAllUser(1, 20)
             .then(
@@ -40,6 +40,11 @@ class Records extends Component {
                     })
                 }
             );
+    }
+
+    // 组件生命周期： 组件渲染后调用
+    componentDidMount() {
+        this.loadData()
     }
 
     addRecord(record) {
@@ -102,6 +107,7 @@ class Records extends Component {
                 <tbody>
                     {data.map((record) =>
                         <Record key={record.id} record={record}
+                            handleRefresh={this.loadData.bind(this)}
                             handleEditRecord={this.updateRecord.bind(this)}
                             handleDeleteRecord={this.deleteRecord.bind(this)} />
                     )

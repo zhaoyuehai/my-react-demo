@@ -18,7 +18,7 @@ class Record extends Component {
         })
     }
     handleEdit(event) {
-        event.preventDefault();
+        event.preventDefault();//取消事件的默认动作
         const record = {
             id: this.props.record.id,
             userName: this.props.record.userName,
@@ -35,6 +35,8 @@ class Record extends Component {
                         this.props.handleEditRecord(this.props.record, record)
                     } else {
                         alert(response.data.message)
+                        //刷新列表
+                        this.props.handleRefresh()
                     }
                 }
             );
@@ -49,6 +51,8 @@ class Record extends Component {
                         this.props.handleDeleteRecord(this.props.record.id)
                     } else {
                         alert(response.data.message)
+                        //刷新列表
+                        this.props.handleRefresh()
                     }
                 }
             );
